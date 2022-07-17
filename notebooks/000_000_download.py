@@ -17,7 +17,7 @@
 # import requests
 import requests_cache
 
-session = requests_cache.CachedSession(".data/interim/.demo_cache")
+session = requests_cache.CachedSession("../data/interim/.demo_cache")
 import pandas as pd
 from pathlib import Path
 from tqdm.auto import tqdm

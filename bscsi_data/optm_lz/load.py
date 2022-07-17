@@ -14,9 +14,9 @@ def load_securd1():
 def get_secid(ticker):
     """ticker -> secid"""
     _df_names = load_securd1()
-    secids = _df_names[_df_names.ticker == ticker.encode()].secid
+    secids = _df_names[_df_names.ticker == ticker.encode()]
     assert len(secids) == 1, f'cannot find ticker "{ticker}". Found {secids}'
-    secid = secids.item()
+    secid = secids.secid.item()
     return secid
 
 
@@ -47,6 +47,7 @@ def load_for_ticker(ticker="MSFT", filters=[], clean=True):
     df["strike_price"] /= 1000  # seems to be multipled by 1000
     df["dte"] = (df.exdate - df.index).dt.days
     df["mid"] = df[["best_offer", "best_bid"]].mean(1)
+    df['spread_perc'] = (df['best_offer'] - df['best_bid'])/(df['best_offer'] + df['best_bid'])/2
 
     # there is lots of junk put in the wrong symbol
     symbol = df.symbol.str.split(" ").apply(lambda x: x[0])
